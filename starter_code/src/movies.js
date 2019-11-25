@@ -64,16 +64,63 @@ function ratesAverage(average){
         return 0;
     }
     let sumRate = average.reduce( (a, b) => {
-        return a + b.rate;
+        return a + (b.rate ? b.rate : 0);
     }, 0);
     
-    let avgRate = (sumRate / average.length).toFixed(2);
+    let averageRate = (sumRate / average.length).toFixed(2);
 
-  return Number(avgRate);
+  return Number(averageRate);
 }
 
 // Iteration 5: Drama movies - Get the average of Drama Movies
 
+function dramaMoviesRate(average){
+    let dramaMovies = average.filter(aMovie => {
+        return aMovie.genre.includes("Drama")
+    });
+    let avgRate = ratesAverage(dramaMovies);
+
+    return avgRate;
+}
+
 // Iteration 6: Time Format - Turn duration of the movies from hours to minutes
 
+function turnHoursToMinutes(array){
+
+    let copy = [...array];
+
+    let newArray = copy.map((eachMovie) =>{
+
+        let duration = eachMovie.duration;
+
+        let min = 0;
+        let hour = 0;
+        let convert = 0;
+        let place;
+        if (duration.includes('h') && duration.includes('min')){
+            place = duration.replace('h', '').replace('min', '').trim();
+            let hour = Number(place.substring(0, place.indexOf(" ")));
+            let min = Number(place.substring(place.indexOf(" ") + 1));
+            convert = (hour * 60 + min);
+
+        }
+        else if (duration.includes('h')){
+            hour = Number(duration.substring(0, duration.indexOf("h")));
+            convert = hour * 60;
+        }
+        else if (duration.includes('min')){
+            min = Number(duration.substring(0, duration.indexOf("min")));
+            convert = min;
+        }
+        return{
+            duration: convert,
+            }
+    })
+    return newArray;
+}
+  
 // BONUS Iteration: Best yearly rate average - Best yearly rate average
+
+function bestYearAvg(avg){
+
+}
